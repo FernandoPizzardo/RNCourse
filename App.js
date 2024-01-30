@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   StyleSheet,
@@ -9,6 +8,8 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
+import GoalText from "./components/GoalText";
+import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
@@ -20,27 +21,18 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals((currentGoals) => [
       ...currentGoals,
-      { key: Math.random().toString(), text: enteredGoal }
+      { key: Math.random().toString(), text: enteredGoal },
     ]);
   }
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Course Goal"
-          onChangeText={goalInputHandler}
-          style={styles.textInput}
-        />
-        <Button title="ADD" onPress={addGoalHandler} />
-      </View>
+      <GoalInput onChangeText={goalInputHandler} onAddGoal={addGoalHandler} />
       <View style={styles.goalList}>
         <FlatList
           data={courseGoals}
           alwaysBounceHorizontal={false}
           renderItem={(itemData) => {
-            return <View  style={styles.goalItem}>
-              <Text style={goalText}>{itemData.item.text}</Text>
-            </View>;
+            return <GoalText text={itemData.item.text} />;
           }}
           keyExtractor={(item, index) => item.key}
         />
@@ -55,32 +47,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    width: "70%",
-    marginRight: 8,
-    flex: 1,
-    padding: 8,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   goalList: {
     flex: 4,
     padding: 8,
-  },
-  goalText: {
-    color: "white",
-  },
-  goalItem: {
-    backgroundColor: "#234567",
-    borderColor: "#cccccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    marginVertical: 8,
   },
 });
