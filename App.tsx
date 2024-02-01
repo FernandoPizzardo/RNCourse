@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, View, FlatList, Pressable, Text } from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
 import { GoalInput, GoalText } from "./components";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
@@ -10,11 +11,16 @@ export default function App() {
     setIsAddMode(true);
   }
 
+  function closeModal() {
+    setIsAddMode(false);
+  }
+
   function addGoalHandler(enteredGoalText: string) {
     setCourseGoals((currentGoals) => [
       ...currentGoals,
       { key: Math.random().toString(), text: enteredGoalText },
     ]);
+    closeModal();
   }
   function removeGoalHandler(goalId: number) {
     setCourseGoals((currentGoals) => {
@@ -23,28 +29,33 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
-      <Pressable style={styles.callModal} onPress={callModal}>
-        <Text>Course Goals</Text>
-      </Pressable>
-      <GoalInput onAddGoal={addGoalHandler} visible={isAddMode} />
-      <View style={styles.goalList}>
-        <FlatList
-          data={courseGoals}
-          alwaysBounceHorizontal={false}
-          renderItem={(itemData) => {
-            return (
-              <GoalText
-                text={itemData.item.text}
-                id={itemData.item.key}
-                onDeleteItem={removeGoalHandler}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => item.key}
+    <>
+      <StatusBar style="light" />
+      <View style={styles.appContainer}>
+        <Button title="Add New Goal" onPress={callModal} color="#9156FF" />
+        <GoalInput
+          onAddGoal={addGoalHandler}
+          visible={isAddMode}
+          onCancel={closeModal}
         />
+        <View style={styles.goalList}>
+          <FlatList
+            data={courseGoals}
+            alwaysBounceHorizontal={false}
+            renderItem={(itemData) => {
+              return (
+                <GoalText
+                  text={itemData.item.text}
+                  id={itemData.item.key}
+                  onDeleteItem={removeGoalHandler}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => item.key}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 

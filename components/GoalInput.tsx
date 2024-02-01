@@ -21,6 +21,10 @@ export default function GoalInput(props: any) {
   return (
     <Modal animationType="slide" visible={props.visible}>
       <View style={styles.inputContainer}>
+        <Image
+          style={styles.titleImage}
+          source={require("../assets/images/goal.png")}
+        />
         <TextInput
           placeholder="Course Goal"
           onChangeText={goalInputHandler}
@@ -31,13 +35,13 @@ export default function GoalInput(props: any) {
         <View style={styles.buttons}>
           <Pressable style={styles.buttonInput} onPress={addGoalHandler}>
             <Image
-              source={require("../assets/plus.png")}
+              source={require("../assets/images/plus.png")}
               style={styles.imagePlus}
             />
           </Pressable>
-          <Pressable style={styles.buttonInput} onPress={props.onCancel}>
+          <Pressable style={styles.buttonCancel} onPress={props.onCancel}>
             <Image
-              source={require("../assets/plus.png")}
+              source={require("../assets/images/plus.png")}
               style={styles.imageCancel}
             />
           </Pressable>
@@ -54,14 +58,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    backgroundColor: "#311b6b",
   },
   textInput: {
     borderWidth: 1,
-    borderColor: "#cccccc",
+    borderColor: "#e4d0ff",
     borderRadius: 10,
+    backgroundColor: "#e4d0ff",
     width: "100%",
-
-    padding: 8,
+    padding: 16,
   },
   buttonInput: {
     paddingVertical: 8,
@@ -92,5 +97,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     transform: [{ rotate: "45deg" }],
+  },
+  titleImage: {
+    width: 100,
+    height: 100,
+  },
+  buttonCancel: {
+    paddingVertical: 8,
+    alignContent: "center",
+    paddingHorizontal: 8,
+    backgroundColor: "#f31282",
+    opacity: 0.7,
+    borderRadius: 30,
+    elevation: 6,
   },
 });
